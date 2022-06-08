@@ -1,4 +1,5 @@
 # MOKE_image_processing
+Details are written in the user_guide.pdf.
  
 REQUIREMENTS
 ------------
