@@ -37,7 +37,6 @@ class Watcher(QObject):
 
 class ExampleHandler(FileSystemEventHandler):
     def on_created(self, event):  # when file is created
-        # do something, eg. call your function to process the image
         path = event.src_path
         time.sleep(0.1)
         image_source.setImage(path)
