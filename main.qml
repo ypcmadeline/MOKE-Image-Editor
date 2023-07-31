@@ -12,10 +12,11 @@ ApplicationWindow {
     id: main
     width: 1400
     height: 600
+    title: 'MOKE image editor'
     visible: true
 
-    Material.theme: Material.System
-    Material.accent: Material.Purple
+    Material.theme: Material.Dark
+    Material.accent: Material.Teal
 
     ColumnLayout{
         anchors {
@@ -30,6 +31,7 @@ ApplicationWindow {
                 Label {
                     text: qsTr("Camera image")
                     font.pixelSize: 22
+                    font.family: 'Courier'
                 }
                 Image{
                     id: preview
@@ -55,6 +57,7 @@ ApplicationWindow {
                 Label {
                     text: qsTr("Processed image")
                     font.pixelSize: 22
+                    font.family: 'Courier'
                 }
                 Image{
                     id: enhance
@@ -87,10 +90,12 @@ ApplicationWindow {
                         id: path
                         enabled: false
                         text: folderModel.folder
+                        font.family: 'Courier'
                         Layout.fillWidth: true
                     }
                     Button {
                         text: "..."
+                        font.family: 'Courier'
                         onClicked: folderDialog.open();
                     }
                 }
@@ -120,14 +125,17 @@ ApplicationWindow {
                         id: folderModel
                         // folder: "file:///"+"read"
                         folder: ""
+                        // font.family: 'Courier'
                         showDirs: false
-                        nameFilters: ["*.tif", "*.png", "*.jpg", "*.avi", "*.mp4"]
+                        nameFilters: ["*.tif", "*.png", "*.jpg"]
                     }
                     highlight: highlight
                     highlightFollowsCurrentItem: false
                     focus: true
                     delegate: Text {
                         text: fileName
+                        font.family: 'Courier'
+                        color: 'white'
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {
@@ -150,6 +158,7 @@ ApplicationWindow {
                 CheckBox {
                     checked: true
                     text: qsTr("Blurring filter")
+                    font.family: 'Courier'
                     onClicked: {
                         processor.setblur()
                     }
@@ -158,6 +167,7 @@ ApplicationWindow {
                 CheckBox {
                     checked: true
                     text: qsTr("Crop")
+                    font.family: 'Courier'
                     onClicked: {
                         processor.setcrop()
                     }
@@ -166,12 +176,15 @@ ApplicationWindow {
                 RowLayout{
                     TextInput {
                         text: "CLAHE Blocksize"
+                        color: 'white'
+                        font.family: 'Courier'
                         cursorVisible: false
 
                     }
                     TextField {
                         id: blksize
                         text: "28"
+                        font.family: 'Courier'
                         onEditingFinished:{
                             processor.setblksize(blksize.text)
                         }
@@ -182,12 +195,15 @@ ApplicationWindow {
                 RowLayout{
                     TextInput {
                         text: "CLAHE ClipLimit"
+                        color: 'white'
+                        font.family: 'Courier'
                         cursorVisible: false
 
                     }
                     TextField {
                         id: clip
                         text: "3.0"
+                        font.family: 'Courier'
                         onEditingFinished:{
                             processor.setclip(clip.text)
                         }
@@ -198,50 +214,40 @@ ApplicationWindow {
                 RowLayout{
                     TextInput {
                         text: "Rolling ball radius"
+                        font.family: 'Courier'
+                        color: 'white'
                         cursorVisible: false
                     }
                     TextField {
                         id: radius
                         text: "0"
+                        font.family: 'Courier'
                         onEditingFinished:{
                             processor.setradius(radius.text)
                         }
                     }
 
                 }
-
-                RowLayout{
-                    TextInput {
-                        text: "fps"
-                        cursorVisible: false
-                    }
-                    TextField {
-                        id: fps
-                        text: "8.0"
-                        onEditingFinished:{
-                            
-                        }
-                    }
-
-                }
-
                 FileDialog {
                     id: bgDialog
                     currentFile: ""
                     nameFilters: ["Images (*.jpg)","Images (*.tif)","Images (*.png)"]
                     folder: folderModel.folder
+                    // onAccepted: apply.text = currentFile
                     onAccepted: {
                         var path = this.currentFile.toString()
                         var c = this.folder.toString()
                         path = path.replace(c,"")
                         background.text = path
-                        processor.subtract_bg(c+path)
+                        processor.subtract_bg(this.currentFile)
                     }
 
                 }
                 RowLayout{
                     Button {
                         text: "Saturated Background"
+                        font.family: 'Courier'
+                        font.capitalization: Font.MixedCase
                         onClicked: {
                             bgDialog.open()
                         }
@@ -249,6 +255,7 @@ ApplicationWindow {
                     TextInput {
                         id: background
                         text: ""
+                        font.family: 'Courier'
                     }
 
                 }
@@ -256,6 +263,8 @@ ApplicationWindow {
                 Button{
                     id: apply
                     text: qsTr("Apply")
+                    font.family: 'Courier'
+                    font.capitalization: Font.MixedCase
                     onClicked: {
                         processor.updateimage()
                     }
@@ -264,7 +273,8 @@ ApplicationWindow {
                     id: saveDialog
                     fileMode: FileDialog.SaveFile
                     currentFile: ""
-                    nameFilters: ["Images (*.jpg)","Images (*.tif)","Images (*.png)", "Videos (*.avi)", "All files (*)"]
+                    // font.family: 'Courier'
+                    nameFilters: ["Images (*.jpg)","Images (*.tif)","Images (*.png)", "All files (*)"]
                     folder: folderModel.folder
                     // onAccepted: apply.text = currentFile
                     onAccepted: processor.saveimage(currentFile)
@@ -272,6 +282,8 @@ ApplicationWindow {
                 Button{
                     id: save
                     text: qsTr("Save")
+                    font.family: 'Courier'
+                    font.capitalization: Font.MixedCase
                     onClicked: saveDialog.open();
                 }
             }
