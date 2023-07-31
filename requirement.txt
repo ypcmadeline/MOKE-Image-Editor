@@ -1,0 +1,4 @@
+PySide2
+opencv-python
+scikit-build
+scikit-image

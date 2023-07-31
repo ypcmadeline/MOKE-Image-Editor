@@ -37,7 +37,6 @@ class Watcher(QObject):
 
 class ExampleHandler(FileSystemEventHandler):
     def on_created(self, event):  # when file is created
-        # do something, eg. call your function to process the image
         path = event.src_path
         time.sleep(0.1)
         image_source.setImage(path)
@@ -46,11 +45,11 @@ class ExampleHandler(FileSystemEventHandler):
 folder = expanduser('~/Pictures')
 watcher = Watcher(folder)
 watcher.run()
-# observer = Observer()
-# event_handler = ExampleHandler()  # create event handler
+observer = Observer()
+event_handler = ExampleHandler()  # create event handler
 # set observer to use created handler in directory
-# observer.schedule(event_handler, path='read')
-# observer.start()
+observer.schedule(event_handler, path='read')
+observer.start()
 
 app = QGuiApplication(sys.argv)
 engine = QQmlApplicationEngine()
